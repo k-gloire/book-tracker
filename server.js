@@ -16,7 +16,7 @@ app.get('/api/search', async (req, res) => {
         const url = 'https://www.googleapis.com/books/v1/volumes?q='
         + encodeURIComponent(q)
         + '&maxResults=20&key='
-        + process.env.Google_books_key;
+        + process.env.GOOGLE_BOOKS_KEY;
 
         const response = await fetch(url);
 
