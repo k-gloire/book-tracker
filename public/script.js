@@ -3,7 +3,7 @@ const button = document.getElementById('search-button');
 const message = document.getElementById('message');
 const results = document.getElementById('results');
 const sortSelect = document.getElementById('sort-select');
-const ratingSelct = document.getElementById('rating-select');
+const ratingSelect = document.getElementById('rating-select');
 let allBooks = [];
 
 async function searchBooks() {
@@ -34,6 +34,7 @@ async function searchBooks() {
         allBooks = data.items;
         renderBooks();
     } catch (err) {
+        console.error(err);
         message.textContent = 'Something went wrong. Check your connection and try again.';
     }
 }
@@ -94,4 +95,4 @@ input.addEventListener('keydown', (e) => {
 });
 
 sortSelect.addEventListener('change', renderBooks);
-ratingSelct.addEventListener('change', renderBooks);
+ratingSelect.addEventListener('change', renderBooks);
