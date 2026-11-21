@@ -12,7 +12,23 @@
         <input id="search-input" type="text" placeholder="Search by title, author or topic">
         <button id="search-button">Search</button>
        </div>
+      <div class="filters">
+        <label>Sort by
+            <select id="sort-select">
+                <option value="">Default</option>
+                <option value="title">Title A-Z</option>
+                <option value="year">Year(newest first)</option>
+            </select>
+            </label>
 
+        <label>Minimum rating
+           <select id="rating-select">
+            <option value="0">Any rating</option>
+            <option value="3">3 and above</option>
+            <option value="4">4 and above</option>
+           </select>
+        </label>
+      </div>
        <p id="message"></p>
        <div id="results"></div>
         <script src="script.js"></script>

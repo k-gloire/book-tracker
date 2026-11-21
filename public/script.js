@@ -2,6 +2,9 @@ const input = document.getElementById('search-input');
 const button = document.getElementById('search-button');
 const message = document.getElementById('message');
 const results = document.getElementById('results');
+const sortSelect = document.getElementById('sort-select');
+const ratingSelct = document.getElementById('rating-select');
+let allBooks = [];
 
 async function searchBooks() {
     const term = input.value.trim();
@@ -28,7 +31,8 @@ async function searchBooks() {
         }
 
         message.textContent = '';
-        data.items.forEach(showBook);
+        allBooks = data.items;
+        renderBooks();
     } catch (err) {
         message.textContent = 'Something went wrong. Check your connection and try again.';
     }
@@ -52,7 +56,42 @@ function showBook(book) {
     results.appendChild(card);
 }
 
+function getYear(book) {
+    const date = book.volumeInfo.publishedDate;
+    return date ? parseInt(date.slice(0, 4)) : 0;
+}
+
+function renderBooks(){
+    if (allBooks.length === 0) return;
+
+    let list = [...allBooks];
+
+    const minRating = Number(ratingSelect.value);
+    if (minRating > 0) {
+        list = list.filter(book =>(book.volumeInfo.averageRating || 0) >= minRating);
+    }
+
+    if (sortSelect.value === 'title') {
+        list.sort((a, b) => (a.volumeInfo.title || '').localeCompare(b.volumeInfo.title || ''));
+    } else if (sortSelect.value === 'year') {
+        list.sort((a, b) => getYear(b) - getYear(a));
+    }
+
+    results.innerHTML = '';
+    message.textContent = '';
+
+    if (list.length === 0) {
+        message.textContent = 'No books match your filters.';
+        return;
+    }
+
+    list.forEach(showBook);
+}
+
 button.addEventListener('click', searchBooks);
 input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') searchBooks();
 });
+
+sortSelect.addEventListener('change', renderBooks);
+ratingSelct.addEventListener('change', renderBooks);

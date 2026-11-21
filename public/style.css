@@ -42,3 +42,10 @@ body {
 #message {
     color: #b00020;
 }
+
+.filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
