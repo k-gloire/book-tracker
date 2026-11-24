@@ -11,6 +11,7 @@ async function searchBooks() {
     results.innerHTML = '';
     message.textContent = '';
 
+
     if (!term) {
         message.textContent = 'Please type a search term.';
         return;
@@ -29,13 +30,12 @@ async function searchBooks() {
             message.textContent= 'No books found. Try a different search.';
             return;
         }
-
         message.textContent = '';
         allBooks = data.items;
         renderBooks();
     } catch (err) {
         console.error(err);
-        message.textContent = 'Something went wrong. Check your connection and try again.';
+        message.textContent = 'Soemthing went wrong. Check your connection and try again.';
     }
 }
 
@@ -52,8 +52,22 @@ function showBook(book) {
 
     const year = document.createElement('p');
     year.textContent = info.publishedDate ? info.publishedDate.slice(0, 4) : 'Year unknown';
+     
+    const rating = document.createElement('p');
+    if (info.averageRating) {
+        rating.textContent = 'Rating: ' + info.averageRating;
+    } else {
+        rating.textContent = 'No rating';
+    }
+     
+    const pages = document.createElement('p');
+    if (info.pageCount) {
+        pages.textContent = 'Pages: ' + info.pageCount;
+    } else {
+        pages.textContent = 'Pages are unknown.';
+    }
 
-    card.append(title, author, year);
+    card.append(title, author, year, rating, pages);
     results.appendChild(card);
 }
 
