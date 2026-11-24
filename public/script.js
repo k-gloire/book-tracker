@@ -4,7 +4,19 @@ const message = document.getElementById('message');
 const results = document.getElementById('results');
 const sortSelect = document.getElementById('sort-select');
 const ratingSelect = document.getElementById('rating-select');
+const readingListDiv = document.getElementById('reading-list');
+
 let allBooks = [];
+let readingList = [];
+try {
+    readingList = JSON.parse(localStorage.getItem('readingList')) || [];
+} catch (err) {
+    readingList = [];
+}
+
+function saveReadingList() {
+    localStorage.setItem('readingList', JSON.stringify(readingList));
+}
 
 async function searchBooks() {
     const term = input.value.trim();
@@ -35,7 +47,7 @@ async function searchBooks() {
         renderBooks();
     } catch (err) {
         console.error(err);
-        message.textContent = 'Soemthing went wrong. Check your connection and try again.';
+        message.textContent = 'Something went wrong. Check your connection and try again.';
     }
 }
 
@@ -67,7 +79,25 @@ function showBook(book) {
         pages.textContent = 'Pages are unknown.';
     }
 
-    card.append(title, author, year, rating, pages);
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+    saveButton.addEventListener('click', () => {
+      const savedList = readingList.some(item => item.id === book.id);
+      if (savedList) {
+        return;
+      }
+
+      readingList.push({
+        id:book.id,
+        title:info.title || 'Untitled',
+        authors:info.authors ? info.authors.join(',') : 'Unknown author',
+        status: 'Want to read'
+      });
+      saveReadingList();
+      renderReadingList();
+    });
+
+    card.append(title, author, year, rating, pages, saveButton);
     results.appendChild(card);
 }
 
@@ -103,6 +133,51 @@ function renderBooks(){
     list.forEach(showBook);
 }
 
+function renderReadingList(){
+    readingListDiv.textContent = '';
+
+    if (readingList.length === 0) {
+        readingListDiv.textContent = 'Nothing saved yet.';
+    return;
+    }
+
+    readingList.forEach(item => {
+        const entry = document.createElement('div');
+        entry.className = 'card';
+ 
+    const title = document.createElement('h3');
+    title.textContent = item.title;
+
+    const authors = document.createElement('p');
+    authors.textContent = item.authors;
+
+    const statusSelect = document.createElement('select');
+    ['Want to read','Reading','Finished'].forEach(optionText => {
+        const option = document.createElement('option');
+        option.value = optionText;
+        option.textContent= optionText;
+        statusSelect.appendChild(option);
+    });
+    statusSelect.value = item.status;
+    statusSelect.addEventListener('change', () => {
+        item.status = statusSelect.value;
+        saveReadingList();
+    });
+
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', () => {
+        readingList = readingList.filter(saved => saved.id !== item.id);
+        saveReadingList();
+        renderReadingList();
+    });
+
+    entry.append(title,authors, statusSelect, removeButton);
+    readingListDiv.appendChild(entry);
+
+     });
+}
+
 button.addEventListener('click', searchBooks);
 input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') searchBooks();
@@ -110,3 +185,5 @@ input.addEventListener('keydown', (e) => {
 
 sortSelect.addEventListener('change', renderBooks);
 ratingSelect.addEventListener('change', renderBooks);
+
+renderReadingList();
