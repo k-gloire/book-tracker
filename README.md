@@ -43,7 +43,7 @@ npm start
 5. Open http://localhost:3000
 
 ## Security
-The API key is read from '.env' on the server (process.env.GOOGLE_BOOKS_KEY). `.env` is listed in `.gitignore`, so it is never uploaded to GitHub. The browser calls my own `/api/search` route, and the server adds the key when it calls Google, so the key never reaches the browser.
+The API key is read from `.env` on the server (process.env.GOOGLE_BOOKS_KEY). `.env` is listed in `.gitignore`, so it is never uploaded to GitHub. The browser calls my own `/api/search` route, and the server adds the key when it calls Google, so the key never reaches the browser.
 
 ## Deployment
 The lab runs three Docker containers (Ubuntu 24.04): web-01, web-02 and lb-01. Each is reachable over SSH from my laptop on a different port (2210 for lb-01, 2211 for web-01, 2212 for web-02).
