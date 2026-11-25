@@ -23,7 +23,6 @@ async function searchBooks() {
     results.innerHTML = '';
     message.textContent = '';
 
-
     if (!term) {
         message.textContent = 'Please type a search term.';
         return;
