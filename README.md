@@ -1,4 +1,4 @@
-# book-tracker
+# Book-tracker
 
 # Purpose
 Book Tracker helps people who love reading learn more about abook before they choose it: its rating, the year it was published and how many pages it has, so they can decide whether to read it. They can also save books to a reading list and mark each one as Want to read, Reading or Finished, which helps them stay on track with their reading.
@@ -100,13 +100,13 @@ lb-01 runs Nginx with an `upstream` block listing web-01 (172.25.0.11) and web-0
 ## Challenges and Solutions
 1. **Typos.** For example `ariaValueMax` instead of `value`, `ratingselct` instead of `ratingSelect`, `getElementedById`, and `push9`. They stopped the whole page working, and VS code showed errors. I fixed by Ctrl+F on the wrong name.
 
-2. **Environmental variable mismatch:**The `.env` variable name is case-sensitive. `Google_books_key` in the code didn't match `GOOGLE_BOOKS_KEY` in `.env`, so the key came out empty and Google rejected the requests.
+2. **Environmental variable mismatch:** The `.env` variable name is case-sensitive. `Google_books_key` in the code didn't match `GOOGLE_BOOKS_KEY` in `.env`, so the key came out empty and Google rejected the requests.
 
-3. **Reading list is no updating:**The loop that draws the list was outside its function, so it ran only once at page load. I fixed this by moving it inside and matching the braces.
+3. **Reading list is no updating:** The loop that draws the list was outside its function, so it ran only once at page load. I fixed this by moving it inside and matching the braces.
 
-4. **Node.js installation problems:**Installing Node.js on the server failed with "404 Not Found" errors. I fixed this by running `apt-get update` and `--no-install-recommends`.
+4. **Node.js installation problems:** Installing Node.js on the server failed with "404 Not Found" errors. I fixed this by running `apt-get update` and `--no-install-recommends`.
 
-5. **Docker and WSL resource limitations:**Docker wouldn't start on a 4GB laptop because of WSL timeout errors. I fixed this by freeing memory, limiting WSL's memory, restarting WSL, and opening worked on retry.
+5. **Docker and WSL resource limitations:** Docker wouldn't start on a 4GB laptop because of WSL timeout errors. I fixed this by freeing memory, limiting WSL's memory, restarting WSL, and opening worked on retry.
 
 ## Author
 
